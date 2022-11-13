@@ -2,7 +2,10 @@
 from pathlib import Path
 from typing import Union
 
-from lupa.lua import LuaRuntime
+try:
+    from lupa import LuaRuntime
+except:
+    from lupa.lua import LuaRuntime  # custom build
 from nonebot import Config
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-packages = find_packages(exclude=('test', 'tests.*', "test*"))
+packages = find_packages(exclude=("test", "tests.*", "test*"))
 
 
 def get_dis():
@@ -24,7 +24,7 @@ def main():
         author_email="diguohuangjiajinweijun@gmail.com",
         python_requires=">=3.7",
         install_requires=["lupa", "nonebot2", "nonebot-adapter-onebot"],
-        license='GPLv3',
+        license="GPLv3",
         classifiers=[
             "Framework :: AsyncIO",
             "Operating System :: OS Independent",
@@ -35,9 +35,9 @@ def main():
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
-            "Programming Language :: Python :: Implementation :: CPython"
+            "Programming Language :: Python :: Implementation :: CPython",
         ],
-        include_package_data=True
+        include_package_data=True,
     )
 
 
