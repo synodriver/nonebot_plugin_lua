@@ -25,3 +25,23 @@ async def wait_lua_tasks_done():
                 await task
             except asyncio.CancelledError:
                 pass
+
+async def handle_lua_thread(co):
+    """
+    把lua的coroutine与py的asyncio结合。具体是，lua yield一个py的coroutine，
+    py里面await后send给lua，一直持续到退出
+    :param co: a lua thread returned by f.coroutine()
+    :return:
+    """
+    ret = None
+    try:
+        while True:
+            task = co.send(ret)
+            if asyncio.iscoroutine(task):
+                ret = await task
+            else:
+                ret = task  # lua coroutine end, this is return value
+                break
+    except StopIteration:
+        pass
+    return ret

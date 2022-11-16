@@ -17,6 +17,7 @@ except:
 
 from .patch_bot import Bot as _Bot
 from .config import plugin_config
+from .utils import handle_lua_thread
 
 lua_on_notice = on_notice()
 
@@ -39,7 +40,8 @@ async def handle_on_notice(bot: Bot, event: Event, state: T_State):
             lua.execute(on_notice_code)
             func = lua.globals()["on_notice"]
             if func and callable(func):
-                func(_Bot(bot), event, state)
+                co = func(_Bot(bot), event, state).coroutine()
+                await handle_lua_thread(co)
         except LuaError as e:
             await bot.send(event, str(e))
 
@@ -85,18 +87,8 @@ async def _(bot: Bot, event: MessageEvent, cmd: Message = CommandArg()):
         #     ret = await task
         # else:
         #     ret = task # coro end, this is return value 根本就不是协程的屑函数
-        ret = None
-        try:
-            while True:
-                task = co.send(ret)
-                if asyncio.iscoroutine(task):
-                    ret = await task
-                else:
-                    ret = task  # coro end, this is return value
-                    break
-        except StopIteration:
-            pass
+        await handle_lua_thread(co)
     except LuaError as e:
         if not str(e):
-            print("py异常被吞")
+            await bot.send("py异常被吞, see https://github.com/scoder/lupa/issues/144")
         await bot.send(event, str(e))
