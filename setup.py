@@ -12,11 +12,11 @@ def get_dis():
 def main():
     dis = get_dis()
     setup(
-        name="nonebot-plugin-picsearcher",
-        version="0.0.1",
+        name="nonebot-plugin-lua",
+        version="0.0.1dev2",
         url="https://github.com/synodriver/nonebot_plugin_lua",
         packages=packages,
-        keywords=["nonebot"],
+        keywords=["nonebot", "lua"],
         description="A lua plugin for nonebot2",
         long_description_content_type="text/markdown",
         long_description=dis,

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 from nonebot.adapters.onebot.v11 import Bot as OneBot
-from lupa.lua import unpacks_lua_table_method, unpacks_lua_table
+try:
+    from lupa import unpacks_lua_table_method, unpacks_lua_table
+except ImportError:
+    from lupa.lua import unpacks_lua_table_method, unpacks_lua_table
 
 
 class Bot:

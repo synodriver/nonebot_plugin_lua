@@ -1,1 +1,1 @@
-# plugin lua
+# nonebot-plugin-lua
