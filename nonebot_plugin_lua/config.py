@@ -1,6 +1,6 @@
 from typing import Callable, Optional, Tuple
 from nonebot import get_driver
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
