@@ -40,7 +40,7 @@ async def handle_on_notice(bot: Bot, event: Event, state: T_State):
             lua.execute(on_notice_code)
             func = lua.globals()["on_notice"]
             if func and callable(func):
-                co = func(_Bot(bot), event, state).coroutine()
+                co = func.coroutine(_Bot(bot), event, state)
                 await handle_lua_thread(co)
         except LuaError as e:
             await bot.send(event, str(e))
@@ -51,8 +51,8 @@ matcher = on_command("修改on_notice")
 
 @matcher.handle()
 async def _(bot: Bot, event: Event, cmd: Message = CommandArg()):
-    global lua_on_notice
-    lua_on_notice = cmd.extract_plain_text()
+    global on_notice_code
+    on_notice_code = cmd.extract_plain_text()
     await bot.send(event, "修改成功")
 
 
@@ -61,8 +61,8 @@ matcher2 = on_command("查看on_notice")
 
 @matcher2.handle()
 async def _(bot: Bot, event: Event, cmd: Message = CommandArg()):
-    global lua_on_notice
-    await bot.send(event, lua_on_notice)
+    global on_notice_code
+    await bot.send(event, on_notice_code)
 
 
 matcher3 = on_command("runlua", rule=to_me())
